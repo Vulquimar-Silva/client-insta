@@ -1,13 +1,17 @@
-import React from 'react';
-import { Form, Button } from "semantic-ui-react";
+import { useMutation } from "@apollo/client";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { Button, Form } from "semantic-ui-react";
 import * as Yup from "yup";
+
+import { REGISTER } from "../../../graphql/user";
 
 import "./RegisterForm.scss"
 
 export default function RegisterForm(props) {
 
   const { setShowLogin } = props;
+  const [register] = useMutation(REGISTER);
 
   const formik = useFormik({
     initialValues: initialFormValues(),
@@ -26,9 +30,30 @@ export default function RegisterForm(props) {
         .required(true)
         .oneOf([Yup.ref("password")], "As senhas não são iguais!"),
     }),
-    onSubmit: (formValues, { resetForm }) => {
-      console.log(formValues);
-      resetForm({ values: "" })
+    onSubmit: async (formData, { resetForm }) => {
+      try {
+        const newUser = formData
+        delete formData.repeatPassword
+
+        await register({
+          variables: {
+            input: newUser,
+          },
+        })
+
+        toast.success('Usuário cadastrado com sucesso!', {
+          theme: "light",
+        });
+
+        setShowLogin(true);
+      } catch (error) {
+        toast.error(`${error.message}`, {
+          theme: "light",
+        });
+        console.error(error.message);
+      }
+
+      resetForm({ values: undefined || "" })
     },
   });
 

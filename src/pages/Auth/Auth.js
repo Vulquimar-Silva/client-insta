@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Container, Image } from "semantic-ui-react";
 
 import RegisterForm from "../../components/Auth/RegisterForm";
+import LoginForm from "../../components/Auth/LoginForm";
 
 import instaWoman from "../../assets/images/svg/InstaWoman.svg";
 import "./Auth.scss";
 
 export default function Auth() {
-  const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
 
   return (
     <Container fluid className='auth'>
@@ -15,7 +16,7 @@ export default function Auth() {
 
       <div className="container-form">
         {showLogin ?
-          <p>Formulario de login</p>
+          <LoginForm />
           :
           <RegisterForm setShowLogin={setShowLogin} />}
       </div>

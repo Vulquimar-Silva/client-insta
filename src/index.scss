@@ -27,15 +27,9 @@ code {
     }
   }
 
-  .btn-reset {
-    margin-top: 10px;
-    width: 100%;
-    background-color: $danger;
-    color: $font-light;
-    transition: all 0.3s ease;
-
-    &:hover {
-      filter: brightness(0.9);
-    }
+  .submit-error {
+    color: $danger;
+    text-align: center;
+    margin: 20px 0 0 0;
   }
 }
