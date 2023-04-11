@@ -4,9 +4,9 @@ import { ToastContainer } from "react-toastify";
 
 import client from "./config/apollo";
 import Auth from "./pages/Auth";
-import { getToken } from "./utils/token";
+import { getToken, decodeToken } from "./utils/token";
 import AuthContext from "./context/AuthContext";
-import Home from "./pages/Home";
+import Navigation from "./routes/routes";
 
 export default function App() {
   const [auth, setAuth] = useState(undefined);
@@ -16,7 +16,7 @@ export default function App() {
     if (!token) {
       setAuth(null);
     } else {
-      setAuth(token);
+      setAuth(decodeToken(token));
     }
   }, []);
 
@@ -33,12 +33,14 @@ export default function App() {
       auth,
       logout,
       setUser
-    }), [auth])
+    }), [auth]);
+
+    if(auth === undefined) return null;
 
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={authData}>
-        {!auth ? <Auth /> : <Home />}
+        {!auth ? <Auth /> : <Navigation />}
         <ToastContainer
           position="top-right"
           autoClose={5000}

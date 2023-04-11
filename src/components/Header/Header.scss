@@ -1,0 +1,20 @@
+@import "../../scss/index.scss";
+
+.header {
+  position: relative;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 12px 0;
+  background-color: $background-light;
+
+  &__logo {
+    display: flex !important;
+    align-items: center;
+    z-index: 9999;
+
+    img {
+      height: 140px;
+      margin-top: -50px;
+      margin-bottom: -50px;
+    }
+  }
+}
